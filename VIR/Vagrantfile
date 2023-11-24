@@ -1,0 +1,24 @@
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "k3m" do |k3m|
+    k3m.vm.box = "centos/7"
+    k3m.vm.provider "virtualbox"
+    k3m.vm.hostname = "k3smasterbox"
+    k3m.vm.synced_folder '.', '/vagrant', disabled: true
+    k3m.vm.provision :shell, path: "init_setup.sh"
+    k3m.vm.network "private_network", ip: "10.205.100.2"
+    k3m.vm.network "forwarded_port", guest_ip: "10.205.100.2", guest: 30002, host: 30002, auto_correct: true
+    if Vagrant.has_plugin?("vagrant-vbguest")
+      k3m.vbguest.auto_update = false
+    end
+   k3m.vm.provider :virtualbox do |v|
+      v.name = "stack_k3m.local"
+      v.customize ["modifyvm", :id, "--memory",4000]
+      v.customize ["modifyvm", :id, "--cpus", 4]
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    end
+  end
+end
+
