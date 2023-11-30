@@ -1,0 +1,57 @@
+
+
+## Steps to run after instances are up
+
+    vagrant ssh masternode
+
+    Add in /etc/hosts
+        10.205.100.11 k3smasterbox k3smasterbox.local
+        10.205.100.22 workernode1 workernode1.local
+        10.205.100.33 workernode2 workernode2.local
+
+
+    sudo kubeadm init  --apiserver-advertise-address=10.205.100.11 --pod-network-cidr=192.168.0.0/16
+   
+    mkdir .kube
+    sudo cp  -i /etc/kubernetes/admin.conf .kube/config
+    sudo chown $(id -u):$(id -g) .kube/config
+
+    ## Starts coredns servers
+    kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
+
+
+
+
+    ## On workernode1 and workernode2
+    ## Generate ssh keys,  Copy id_rsa.pub to MasterNode  authorized_keys
+
+    ssh-keygen -t rsa
+
+    ## Verify connection from workernodes --> ssh vagrant@10.205.100.11
+
+    ## Now Join the workder node
+    kubeadm join 10.205.100.11:6443 --token 06lgk6.kbwoas0pn9minfot --discovery-token-ca-cert-hash sha256:fd160757e8f8c616a2a67895a034530ee1a623b478e9b09b72a5a21d560c5503 
+
+    ## Verify on Masternode
+    [vagrant@k3smasterbox~]$  kubectl get nodes
+    NAME           STATUS   ROLES           AGE   VERSION
+    k3smasterbox   Ready    control-plane   13m   v1.28.2
+    workernode1    Ready    <none>          10m   v1.28.2
+    workernode2    Ready    <none>          34s   v1.28.2
+
+    ## On Master deploy Metrics yaml to view resource usage.
+    kubectl apply -f https://raw.githubusercontent.com/pythianarora/total-practice/master/sample-kubernetes-code/metrics-server.yaml
+
+    kubectl top nodes
+    NAME           CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+    k3smasterbox   956m         23%    2110Mi          58%       
+    workernode1    114m         5%     914Mi           52%       
+    workernode2    534m         26%    918Mi           52%       
+
+    ## If you need pods running on masternode
+    kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+    ##    node/master-node untainted
+
+    ##  Deploy nginx 
+    kubectl run nginx --image=nginx
+
