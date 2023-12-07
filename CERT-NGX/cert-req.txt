@@ -1,0 +1,33 @@
+
+
+## 1. First Create RSA private certificate key
+openssl genrsa -des3 -out myhost.key 4096
+
+## 2. Create Signing Request based on private key
+openssl req -new -key myhost.key -out myhost.csr
+
+## 3. Create private key without passwd 
+openssl rsa -in myhost.key -out myhost_wo_pw.key
+
+## 4. Submit myhost.csr to Certificate Authority to sign,   Here we do locally
+openssl x509 -req -in myhost.csr  -signkey myhost_wo_pw.key  -out myhost.crt
+  Certificate request self-signature ok
+  subject=C = AU, ST = LA, L = Auburn, O = ACC, OU = dev, CN = *.ld.afsp.io, emailAddress = nt@gm.com
+
+## 5. For Consistency rename myhost_wo_pw to myhost.key, and rename other to with_pw.
+  mv myhost.key  myhost_with_pw.key
+  mv myhost_wo_pw.key  myhost.key
+
+## 6. Get details of certificate
+openssl x509 -in myhost.crt  -noout -text
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number:
+            03:34:f2:af:25:39:5c:42:56:b5:47:1c:d1:4f:0b:3e:6c:b8:e6:b6
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C = US, ST = VA, L = Ashburn, O = ACC, OU = dev, CN = *.ld.afsp.io, emailAddress = nt@gm.com
+        Validity
+            Not Before: Dec  7 15:43:02 2023 GMT
+            Not After : Jan  6 15:43:02 2024 GMT
+
