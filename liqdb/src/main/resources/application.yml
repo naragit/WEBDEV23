@@ -1,0 +1,10 @@
+spring:
+    application:
+      name: emplist-lbapp
+    datasource:
+       url: jdbc:postgresql://localhost:25432/emplist
+       username: admin
+       password: password
+    liquibase:
+      change-log:  db/changelog/app-changelog.xml
+      default-schema: liquibase_db
