@@ -1,0 +1,26 @@
+services:
+
+  postgres_empdb:
+    container_name: postgres_empdb
+    image: postgres:15
+    command: ["postgres", "-c", "config_file=/etc/postgresql.conf"]
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=emplist
+#      - POSTGRES_MULTIPLE_DATABASES=firstdb,emplist
+    ports:
+      - "25432:5432"
+    volumes:
+      - postgres_data:/data/db
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgresql.conf:/etc/postgresql.conf
+    healthcheck:
+      test: 'pg_isready -U admin --dbname=emplist'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  postgres_data:
+
