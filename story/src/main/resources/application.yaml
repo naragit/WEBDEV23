@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: story_setapp
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/storydb
+    username: storyuser
+    password: storyuser123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 1           # Minimum number of idle connections
+      maximum-pool-size: 5     # Maximum number of connections in the pool
+      idle-timeout: 30000       # Time (ms) before an idle connection is removed
+      pool-name: StoryDBPool   # Optional: name your pool
+      connection-timeout: 20000 # Max wait time (ms) for a connection
+      max-lifetime: 180000      # Max lifetime (ms) of a connection
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          batch_size: '15'
+        order_inserts: true
+        generate_statistics: true
+    show-sql: true

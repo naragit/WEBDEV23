@@ -1,0 +1,21 @@
+
+services:
+  postgres_storydb:
+    image: postgres:15
+    restart: always
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./initdb/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    environment:
+      POSTGRES_DB: storydb
+      POSTGRES_USER: storyuser
+      POSTGRES_PASSWORD: storyuser123
+    ports:
+      - "5432:5432"
+    networks:
+      - local
+
+networks:
+  local:
+
