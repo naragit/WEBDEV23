@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: devnt
+      preConditions:
+        - not:
+            - tableExists:
+                tableName: users
+  - changeSet:
+      id: 14
+      author: devnt
+      changes:
+        - sql:
+            splitStatements: true
+            stripComments: true
+            sql: |
+              CREATE TABLE users (                
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(50) NOT NULL,
+                email VARCHAR(100)
+              );
+              INSERT INTO users (username, email) VALUES ('ntadmin', 'admin@example.com');
+  - include:
+      file: add_col.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: add_email_col.xml
+      relativeToChangelogFile: true
+

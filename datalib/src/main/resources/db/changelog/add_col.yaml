@@ -1,0 +1,15 @@
+
+databaseChangeLog:
+  - changeSet:
+      id: update-14-city-column
+      author: NT
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: city
+                  type: varchar(55)
+                  constraints:
+                    nullable: true
+

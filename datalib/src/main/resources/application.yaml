@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: datalib
+  datasource:
+    url: 'jdbc:postgresql://localhost:25432/empuserdb'
+    username: empuser
+    password: empuser123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 5
+      idle-timeout: 30000
+      pool-name: EmpUserDBPool
+      connection-timeout: 20000
+      max-lifetime: 180000
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true

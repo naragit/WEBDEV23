@@ -1,0 +1,20 @@
+
+services:
+  postgres_userempdb:
+    image: postgres:15
+    restart: always
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: empuserdb
+      POSTGRES_USER: empuser
+      POSTGRES_PASSWORD: empuser123
+    ports:
+      - "25432:5432"
+    networks:
+      - local
+
+networks:
+  local:
+
+
