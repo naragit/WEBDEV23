@@ -26,4 +26,6 @@ databaseChangeLog:
   - include:
       file: add_email_col.xml
       relativeToChangelogFile: true
-
+  - include:
+      file: index_col.sql
+      relativeToChangelogFile: true
