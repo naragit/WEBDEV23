@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="card shadow-sm">
+    <h3 th:text="${message}"></h3>
+
+    <table  class="table table-bordered">
+        <tbody>
+        <tr>
+            <td>NAME</td>
+            <td>EMAIL</td>
+        </tr>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.uname}" />
+            <td th:text="${user.email}" />
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <h3 th:text="${linkpage}"></h3>
+    <table class="table table-striped">
+        <tr>
+            <td>SeqNo.</td>
+            <td>Product</td>
+            <td>Features</td>
+        </tr>
+        <tbody>
+        <tr th:each="prod: ${products_list}" class="table-red">
+            <td th:text="${prod.id}" />
+            <td th:text="${prod.name}" />
+            <td>
+                <table>
+                    <tbody>
+                    <tr class="table-success">
+                        <td>
+                            <table>
+                                <tr class="table-success">
+                                    <td>
+                                        <ul th:each="entry : ${prod.data}">
+                                            <span th:text="${entry.key}"></span> :
+                                            <span th:text="${entry.value}"></span>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <a href="/">Go to Home</a>
+    <br>
+</div>
+</body>
+</html>
+
