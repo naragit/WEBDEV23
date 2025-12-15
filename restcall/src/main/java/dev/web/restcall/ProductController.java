@@ -20,13 +20,13 @@ public class ProductController
     @GetMapping("/greet")
     public String  greetMsg()
     {
-        return "Welcone User : "+new java.util.Date();
+        return "greet";
     }
 
     @GetMapping("/")
     public String index(Model model)
     {
-        User userObj = new User();
+        EmpUser userObj = new EmpUser();
 
         model.addAttribute("user", userObj);
 
@@ -35,7 +35,7 @@ public class ProductController
 
 
     @PostMapping("/saveRecord")
-    public String handleSubmitBtn(User user, Model model)
+    public String handleSubmitBtn(EmpUser user, Model model)
     {
         System.out.println(user);
         model.addAttribute("msg", user.getUname() + " added successfully..!!");
@@ -47,7 +47,7 @@ public class ProductController
     @GetMapping("/list")
     public String testMode(Model model)
     {
-        ArrayList<User> list = getUsers();
+        ArrayList<EmpUser> list = getUsers();
         Product[] products = getRestContents();
 
         System.out.println(" Inside Model "+new java.util.Date());
@@ -59,17 +59,17 @@ public class ProductController
         return "productlist";
     }
 
-    public ArrayList<User> getUsers()
+    public ArrayList<EmpUser> getUsers()
     {
-        User u1 = new User();
+        EmpUser u1 = new EmpUser();
         u1.setUname("Nara");
         u1.setEmail("web@mail.com");
 
-        User u2 = new User();
+        EmpUser u2 = new EmpUser();
         u2.setUname("Chow");
         u2.setEmail("chow@mail.com");
 
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<EmpUser> users = new ArrayList<>();
 
         users.add(u1);
         users.add(u2);
